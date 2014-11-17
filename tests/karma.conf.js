@@ -20,7 +20,7 @@ module.exports = function(config) {
 		// Test results reporter to use
 		// Possible values: 'dots', 'progress', 'junit', 'growl', 'coverage'
 		//reporters: ['progress'],
-		reporters: ['progress'],
+		reporters: ['progress', 'osx'],
 
 		// Web server port
 		port: 9876,
@@ -44,6 +44,20 @@ module.exports = function(config) {
 		// - PhantomJS
 		// - IE (only Windows)
 		browsers: ['PhantomJS'],
+
+		plugins : [
+			'karma-chrome-launcher',
+			'karma-firefox-launcher',
+			'karma-phantomjs-launcher',
+			'karma-jasmine',
+			'karma-junit-reporter',
+			'karma-osx-reporter'
+		],
+
+		junitReporter : {
+			outputFile: 'logs/unit.xml',
+			suite: 'unit'
+		},
 
 		// If browser does not capture in given timeout [ms], kill it
 		captureTimeout: 60000,
