@@ -45,7 +45,15 @@ module.exports = {
 		],
 		tests: [
 			'client/lib/angular-mocks/angular-mocks.js',
-			'client/modules/*/tests/*.js'
+			'tests/client/**/*.js'
+		]
+	},
+	server: {
+		js: [
+			'server/**/*.js'
+		],
+		tests: [
+			'tests/server/**/*.js'
 		]
 	}
 };
