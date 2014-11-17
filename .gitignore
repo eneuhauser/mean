@@ -3,8 +3,9 @@
 .sass-cache/
 npm-debug.log
 node_modules/
-public/lib
-app/tests/coverage/
+client/lib
+build
+tests/coverage/
 .bower-*/
 .idea/
 config/sslcert/*.pem

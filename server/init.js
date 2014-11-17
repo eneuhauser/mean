@@ -2,8 +2,8 @@
 /**
  * Module dependencies.
  */
-var init = require('./config/init')(),
-	config = require('./config/config'),
+var init = require('../config/init')(),
+	config = require('../config/config'),
 	mongoose = require('mongoose'),
 	chalk = require('chalk');
 
@@ -21,10 +21,10 @@ var db = mongoose.connect(config.db, function(err) {
 });
 
 // Init the express application
-var app = require('./config/express')(db);
+var app = require('../config/express')(db);
 
 // Bootstrap passport config
-require('./config/passport')();
+require('../config/passport')();
 
 // Start the app by listening on <port>
 app.listen(config.port);
