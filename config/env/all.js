@@ -22,30 +22,30 @@ module.exports = {
 	assets: {
 		lib: {
 			css: [
-				'public/lib/bootstrap/dist/css/bootstrap.css',
-				'public/lib/bootstrap/dist/css/bootstrap-theme.css',
+				'client/lib/bootstrap/dist/css/bootstrap.css',
+				'client/lib/bootstrap/dist/css/bootstrap-theme.css',
 			],
 			js: [
-				'public/lib/angular/angular.js',
-				'public/lib/angular-resource/angular-resource.js',
-				'public/lib/angular-animate/angular-animate.js',
-				'public/lib/angular-ui-router/release/angular-ui-router.js',
-				'public/lib/angular-ui-utils/ui-utils.js',
-				'public/lib/angular-bootstrap/ui-bootstrap-tpls.js'
+				'client/lib/angular/angular.js',
+				'client/lib/angular-resource/angular-resource.js',
+				'client/lib/angular-animate/angular-animate.js',
+				'client/lib/angular-ui-router/release/angular-ui-router.js',
+				'client/lib/angular-ui-utils/ui-utils.js',
+				'client/lib/angular-bootstrap/ui-bootstrap-tpls.js'
 			]
 		},
 		css: [
-			'public/modules/**/css/*.css'
+			'client/modules/**/css/*.css'
 		],
 		js: [
-			'public/config.js',
-			'public/application.js',
-			'public/modules/*/*.js',
-			'public/modules/*/*[!tests]*/*.js'
+			'client/config.js',
+			'client/application.js',
+			'client/modules/*/*.js',
+			'client/modules/*/*[!tests]*/*.js'
 		],
 		tests: [
-			'public/lib/angular-mocks/angular-mocks.js',
-			'public/modules/*/tests/*.js'
+			'client/lib/angular-mocks/angular-mocks.js',
+			'client/modules/*/tests/*.js'
 		]
 	}
 };
