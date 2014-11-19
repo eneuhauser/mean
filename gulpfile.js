@@ -2,13 +2,31 @@
 
 var gulp = require('gulp'),
     server = require( 'gulp-develop-server'),
-    livereload = require( 'gulp-livereload' );
+    karma = require('karma').server,
+    mocha = require('gulp-mocha'),
+    protractor = require('gulp-protractor').protractor,
+    webdriverStandalone = require('gulp-protractor').webdriver_standalone,
+    webdriverUpdate = require('gulp-protractor').webdriver_update,
+    livereload = require( 'gulp-livereload'),
+    watchFiles = {
+        serverViews: ['server/views/**/*.*'],
+        serverJS: ['gulpfile.js', 'config/**/*.js', 'server/*.js', 'server/**/*.js'],
+        clientViews: ['client/modules/**/views/**/*.html'],
+        clientJS: ['client/js/*.js', 'client/modules/**/*.js'],
+        clientCSS: ['client/modules/**/*.css'],
+        mochaTests: ['tests/server/**/*.js']
+    };
 
 /* ***** RUNNING ***** */
 
 gulp.task('serve', function() {
     // FIXME Test if the server is already running
-    server.listen( { path: './server/init.js' }, livereload.listen );
+    server.listen({
+        path: './server/init.js',
+        successMessage: function() {
+            console.log('Hello World!!!')
+        }
+    }, livereload.listen );
 });
 
 /* ***** BUILDING ***** */
@@ -27,15 +45,32 @@ gulp.task('build', ['styles', 'scripts']);
 
 /* ***** TESTING ***** */
 
-gulp.task('test:unit', function() {
-    console.log('TODO Run Karma tests');
+gulp.task('test:server', function() {
+    console.log('starting mocha');
+    return gulp.src(['server/init.js'].concat(watchFiles.mochaTests), {read: false})
+        .pipe(mocha({reporter: 'spec'}));
 });
 
-gulp.task('test:e2e', function() {
-    console.log('TODO Run Protractor tests');
+gulp.task('test:client', function(done) {
+    karma.start({
+        configFile: __dirname + '/tests/karma.conf.js',
+        singleRun: true
+    }, done);
 });
 
-gulp.task('test', ['test:unit', 'test:e2e']);
+gulp.task('webdriver:update', webdriverUpdate);
+
+gulp.task('test:integration', ['serve', 'webdriver:update'], function() {
+    return gulp.src('tests/integration/**/*.js')
+        .pipe(protractor({
+            configFile: 'tests/protractor.conf.js'
+        }))
+        .on('error', function(e) {
+            throw e;
+        });
+});
+
+gulp.task('test', ['test:client', 'test:server', 'test:integration']);
 
 /* ***** WATCHING ***** */
 

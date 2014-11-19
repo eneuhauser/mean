@@ -5,3 +5,6 @@ env:
   - NODE_ENV=travis
 services:
   - mongodb
+script:
+  - node_modules/.bin/karma start tests/karma.conf.js --no-auto-watch --single-run --reporters=dots --browsers=Firefox
+  - node_modules/.bin/protractor tests/protractor.conf.js --browser=firefox

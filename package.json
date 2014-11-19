@@ -15,6 +15,7 @@
   "scripts": {
     "start": "gulp",
     "test": "gulp test",
+    "protractor": "protractor tests/protractor.conf.js",
     "postinstall": "bower install --config.interactive=false"
   },
   "dependencies": {
@@ -63,6 +64,8 @@
     "gulp": "^3.8.10",
     "gulp-develop-server": "^0.2.4",
     "gulp-livereload": "^2.1.1",
+    "gulp-mocha": "^2.0.0",
+    "gulp-protractor": "0.0.11",
     "karma": "~0.12.0",
     "karma-chrome-launcher": "~0.1.2",
     "karma-coverage": "~0.2.0",
@@ -72,6 +75,7 @@
     "karma-osx-reporter": "^0.1.0",
     "karma-phantomjs-launcher": "~0.1.2",
     "load-grunt-tasks": "~1.0.0",
+    "protractor": "^1.4.0",
     "should": "~4.1.0",
     "supertest": "~0.14.0"
   }
