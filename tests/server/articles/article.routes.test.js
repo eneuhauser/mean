@@ -2,7 +2,7 @@
 
 var should = require('should'),
 	request = require('supertest'),
-	app = require('../../server/init'),
+	app = require('../../../server/init'),
 	mongoose = require('mongoose'),
 	User = mongoose.model('User'),
 	Article = mongoose.model('Article'),
