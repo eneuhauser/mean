@@ -1,3 +1,27 @@
+/**
+ * The project was updated to use Gulp, but this grunt file was updated to the
+ * new structure. To be able to run, the following packages need to be added:
+{
+"dependencies": {
+    "grunt-cli": "~0.1.13"
+  },
+  "devDependencies": {
+    "grunt-concurrent": "~1.0.0",
+    "grunt-contrib-csslint": "^0.3.1",
+    "grunt-contrib-cssmin": "~0.10.0",
+    "grunt-contrib-jshint": "~0.10.0",
+    "grunt-contrib-uglify": "~0.6.0",
+    "grunt-contrib-watch": "~0.6.1",
+    "grunt-env": "~0.4.1",
+    "grunt-karma": "~0.9.0",
+    "grunt-mocha-test": "~0.12.1",
+    "grunt-ng-annotate": "~0.4.0",
+    "grunt-node-inspector": "~0.1.3",
+    "grunt-nodemon": "~0.3.0"
+  }
+}
+ */
+
 'use strict';
 
 module.exports = function(grunt) {

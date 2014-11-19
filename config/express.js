@@ -29,7 +29,7 @@ module.exports = function(db) {
 	var app = express();
 
 	// Globbing model files
-	config.getGlobbedFiles('./server/models/**/*.js').forEach(function(modelPath) {
+	config.getGlobbedFiles('./server/**/*.model.js').forEach(function(modelPath) {
 		require(path.resolve(modelPath));
 	});
 
@@ -115,7 +115,7 @@ module.exports = function(db) {
 	app.use(express.static(path.resolve('./client')));
 
 	// Globbing routing files
-	config.getGlobbedFiles('./server/routes/**/*.js').forEach(function(routePath) {
+	config.getGlobbedFiles('./server/**/*.routes.js').forEach(function(routePath) {
 		require(path.resolve(routePath))(app);
 	});
 
