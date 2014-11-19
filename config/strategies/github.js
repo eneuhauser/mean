@@ -7,7 +7,7 @@ var passport = require('passport'),
 	url = require('url'),
 	GithubStrategy = require('passport-github').Strategy,
 	config = require('../config'),
-	users = require('../../server/users/users.server.controller.js');
+	authentication = require('../../server/auth/authentication.controller.js');
 
 module.exports = function() {
 	// Use github strategy
@@ -34,7 +34,7 @@ module.exports = function() {
 			};
 
 			// Save the user OAuth profile
-			users.saveOAuthUserProfile(req, providerUserProfile, done);
+			authentication.saveOAuthUserProfile(req, providerUserProfile, done);
 		}
 	));
 };

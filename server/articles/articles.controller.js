@@ -4,7 +4,7 @@
  * Module dependencies.
  */
 var mongoose = require('mongoose'),
-	errorHandler = require('../core/errors.server.controller.js'),
+	errorHandler = require('../core/errors.controller.js'),
 	Article = mongoose.model('Article'),
 	_ = require('lodash');
 

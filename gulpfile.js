@@ -4,9 +4,10 @@ var gulp = require('gulp'),
     server = require( 'gulp-develop-server'),
     karma = require('karma').server,
     mocha = require('gulp-mocha'),
-    protractor = require('gulp-protractor').protractor,
-    webdriverStandalone = require('gulp-protractor').webdriver_standalone,
-    webdriverUpdate = require('gulp-protractor').webdriver_update,
+    gulpProtractor = require('gulp-protractor'),
+    protractor = gulpProtractor.protractor,
+    webdriverStandalone = gulpProtractor.webdriver_standalone,
+    webdriverUpdate = gulpProtractor.webdriver_update,
     livereload = require( 'gulp-livereload'),
     watchFiles = {
         serverViews: ['server/views/**/*.*'],
@@ -15,12 +16,14 @@ var gulp = require('gulp'),
         clientJS: ['client/js/*.js', 'client/modules/**/*.js'],
         clientCSS: ['client/modules/**/*.css'],
         mochaTests: ['tests/server/**/*.js']
-    };
+    },
+    nowServing = false;
 
 /* ***** RUNNING ***** */
 
 gulp.task('serve', function() {
-    // FIXME Test if the server is already running
+    if(nowServing) { return; }
+    nowServing = true;
     server.listen({
         path: './server/init.js',
         successMessage: function() {
@@ -46,7 +49,6 @@ gulp.task('build', ['styles', 'scripts']);
 /* ***** TESTING ***** */
 
 gulp.task('test:server', function() {
-    console.log('starting mocha');
     return gulp.src(['server/init.js'].concat(watchFiles.mochaTests), {read: false})
         .pipe(mocha({reporter: 'spec'}));
 });
