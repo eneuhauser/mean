@@ -6,12 +6,11 @@
 var glob = require('glob'),
 	chalk = require('chalk');
 
+/**
+ * Determines if the current environment has a configuration file; otherwise, set NODE_ENV variable to development.
+ * @return the value for NODE_ENV.
+ */
 function checkEnvironment() {
-	console.log('exporting init');
-	/**
-	 * Before we begin, lets set the environment variable
-	 * We'll Look for a valid NODE_ENV variable and if one cannot be found load the development NODE_ENV
-	 */
 	glob('./config/env/' + process.env.NODE_ENV + '.js', {
 		sync: true
 	}, function(err, environmentFiles) {
