@@ -3,7 +3,8 @@
 /**
  * Module dependencies.
  */
-var _ = require('lodash'),
+var env = require('./env/init'),
+	_ = require('lodash'),
 	glob = require('glob');
 
 /**
@@ -11,7 +12,7 @@ var _ = require('lodash'),
  */
 module.exports = _.extend(
 	require('./env/all'),
-	require('./env/' + process.env.NODE_ENV) || {}
+	require('./env/' + env) || {}
 );
 
 /**
