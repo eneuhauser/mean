@@ -1,6 +1,11 @@
 'use strict';
 
 var gulp = require('gulp'),
+    sass = require('gulp-sass'),
+    sourcemaps = require('gulp-sourcemaps'),
+    concatJs = require('gulp-concat'),
+    csso = require('gulp-csso'),
+    uglify = require('gulp-uglify'),
     server = require( 'gulp-develop-server'),
     karma = require('karma').server,
     mocha = require('gulp-mocha'),
@@ -17,7 +22,9 @@ var gulp = require('gulp'),
         clientCSS: ['client/modules/**/*.css'],
         mochaTests: ['tests/server/**/*.js']
     },
-    nowServing = false;
+    del = require('del'),
+    nowServing = false,
+    isDevelopment = true; // FIXME Make this dynamic
 
 /* ***** RUNNING ***** */
 
@@ -35,13 +42,32 @@ gulp.task('serve', function() {
 /* ***** BUILDING ***** */
 
 gulp.task('styles', function() {
+    var stream = gulp.src(['client/styles/**/*.scss']);
+    if(isDevelopment) { stream = stream.pipe(sourcemaps.init()); }
+    stream = stream.pipe(sass());
+    if(isDevelopment) { stream = stream.pipe(sourcemaps.write('./maps')); }
+    else { stream = stream.pipe(csso()); }
+    stream.pipe(gulp.dest('client/dist/css'));
+
     console.log('TODO Run CSS Linter');
     console.log('TODO Compile SASS to CSS');
 });
 
 gulp.task('scripts', function() {
+    var stream = gulp.src('client/**/*.js');
+
     console.log('TODO Run JSHint');
-    console.log('TODO Uglify frontend if not development');
+    if(isDevelopment) {
+        // TODO Add source maps
+    } else {
+        stream = stream.pipe(uglify());
+    }
+
+    stream.pipe(concatJs('app.js')).pipe(gulp.dest('client/dist/js'));
+});
+
+gulp.task('clean', function() {
+    del(['client/dist'], { force:true });
 });
 
 gulp.task('build', ['styles', 'scripts']);
