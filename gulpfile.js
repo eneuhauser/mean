@@ -58,12 +58,18 @@ gulp.task('scripts', function() {
 
     console.log('TODO Run JSHint');
     if(isDevelopment) {
-        // TODO Add source maps
+        stream = stream.pipe(sourcemaps.init());
     } else {
         stream = stream.pipe(uglify());
     }
 
-    stream.pipe(concatJs('app.js')).pipe(gulp.dest('client/dist/js'));
+    // TBD Potentially compile ES6/CoffeeScript/ATScript here
+
+    stream.pipe(concatJs('application.js'));
+    if(isDevelopment) {
+        stream = stream.pipe(sourcemaps.write('./maps'));
+    }
+    stream.pipe(gulp.dest('client/dist/js'));
 });
 
 gulp.task('clean', function() {
