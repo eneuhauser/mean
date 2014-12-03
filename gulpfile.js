@@ -24,7 +24,7 @@ var gulp = require('gulp'),
     },
     del = require('del'),
     nowServing = false,
-    isDevelopment = true; // FIXME Make this dynamic
+    isDevelopment = false; // FIXME Make this dynamic
 
 /* ***** RUNNING ***** */
 
@@ -54,18 +54,19 @@ gulp.task('styles', function() {
 });
 
 gulp.task('scripts', function() {
-    var stream = gulp.src('client/**/*.js');
+    var stream = gulp.src(['client/**/*.js', '!client/lib/**']);
 
     console.log('TODO Run JSHint');
     if(isDevelopment) {
         stream = stream.pipe(sourcemaps.init());
     } else {
-        stream = stream.pipe(uglify());
+        // FIXME This is failing
+        //stream = stream.pipe(uglify());
     }
 
     // TBD Potentially compile ES6/CoffeeScript/ATScript here
 
-    stream.pipe(concatJs('application.js'));
+    stream = stream.pipe(concatJs('application.js'));
     if(isDevelopment) {
         stream = stream.pipe(sourcemaps.write('./maps'));
     }
@@ -123,7 +124,7 @@ gulp.task('watch:client', ['build'], function() {
         livereload.changed(file.path);
     }
 
-    gulp.watch(['./client/**/*.css', '/client/**/*.scss'], ['styles']);
+    gulp.watch(['./client/styles/**/*.css', '/client/styles/**/*.scss'], ['styles']);
     gulp.watch(['./client/**/*.js'], ['scripts']).on( 'change', restart );
 });
 
