@@ -16,10 +16,10 @@ var gulp = require('gulp'),
     livereload = require( 'gulp-livereload'),
     watchFiles = {
         serverViews: ['server/views/**/*.*'],
-        serverJS: ['gulpfile.js', 'config/**/*.js', 'server/*.js', 'server/**/*.js'],
+        serverScripts: ['gulpfile.js', 'config/**/*.js', 'server/*.js', 'server/**/*.js'],
         clientViews: ['client/modules/**/views/**/*.html'],
-        clientJS: ['client/js/*.js', 'client/modules/**/*.js'],
-        clientCSS: ['client/modules/**/*.css'],
+        clientScripts: ['client/**/*.js'],
+        clientStyles: ['./client/**/*.scss', '/client/**/*.css', '!client/lib/**'],
         mochaTests: ['tests/server/**/*.js']
     },
     del = require('del'),
@@ -119,7 +119,7 @@ gulp.task('watch:server', ['serve'], function() {
             livereload.changed( file.path );
         });
     }
-    gulp.watch('./server/**/*.js').on('change', restart);
+    gulp.watch(watchFiles.serverScripts).on('change', restart);
 });
 
 gulp.task('watch:client', ['build'], function() {
@@ -127,8 +127,8 @@ gulp.task('watch:client', ['build'], function() {
         livereload.changed(file.path);
     }
 
-    gulp.watch(['./client/styles/**/*.css', '/client/styles/**/*.scss'], ['styles']);
-    gulp.watch(['./client/**/*.js'], ['scripts']).on( 'change', restart );
+    gulp.watch(watchFiles.clientStyles, ['styles']);
+    gulp.watch(watchFiles.clientScripts, ['scripts']).on('change', restart);
 });
 
 gulp.task('watch', ['watch:server', 'watch:client']);
