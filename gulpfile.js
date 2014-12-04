@@ -1,11 +1,13 @@
 'use strict';
 
 var gulp = require('gulp'),
+    runSequence = require('run-sequence').use(gulp),
     sass = require('gulp-sass'),
     sourcemaps = require('gulp-sourcemaps'),
     concat = require('gulp-concat'),
     csso = require('gulp-csso'),
     uglify = require('gulp-uglify'),
+    clean = require('gulp-clean'),
     server = require( 'gulp-develop-server'),
     karma = require('karma').server,
     mocha = require('gulp-mocha'),
@@ -18,11 +20,10 @@ var gulp = require('gulp'),
         serverViews: ['server/views/**/*.*'],
         serverScripts: ['gulpfile.js', 'config/**/*.js', 'server/*.js', 'server/**/*.js'],
         clientViews: ['client/modules/**/views/**/*.html'],
-        clientScripts: ['client/**/*.js'],
-        clientStyles: ['./client/**/*.scss', '/client/**/*.css', '!client/lib/**'],
+        clientScripts: ['client/**/*.js', '!client/dist/**'],
+        clientStyles: ['./client/**/*.scss', '/client/**/*.css', '!client/dist/**'],
         mochaTests: ['tests/server/**/*.js']
     },
-    del = require('del'),
     nowServing = false,
     isDevelopment = (process.env.NODE_ENV === 'development');
 
@@ -31,7 +32,7 @@ var gulp = require('gulp'),
 gulp.task('serve', function() {
     if(nowServing) { return; }
     nowServing = true;
-    server.listen({
+    return server.listen({
         path: './server/init.js',
         successMessage: function() {
             console.log('Hello World!!!')
@@ -42,17 +43,17 @@ gulp.task('serve', function() {
 /* ***** BUILDING ***** */
 
 gulp.task('styles', function() {
-    var stream = gulp.src(['client/**/*.scss', '!client/lib/**']);
+    var stream = gulp.src(['client/**/*.scss', '!client/lib/**', '!client/dist/**']);
     console.log('TODO Run CSS Linter');
     if(isDevelopment) { stream = stream.pipe(sourcemaps.init()); }
     stream = stream.pipe(sass()).pipe(concat('application.css'));
     if(isDevelopment) { stream = stream.pipe(sourcemaps.write('./maps')); }
     else { stream = stream.pipe(csso()); }
-    stream.pipe(gulp.dest('client/dist/css'));
+    return stream.pipe(gulp.dest('client/dist/css'));
 });
 
 gulp.task('scripts', function() {
-    var stream = gulp.src(['client/**/*.js', '!client/lib/**']);
+    var stream = gulp.src(['client/**/*.js', '!client/lib/**', '!client/dist/**']);
 
     console.log('TODO Run JSHint');
     if(isDevelopment) {
@@ -68,19 +69,21 @@ gulp.task('scripts', function() {
     if(isDevelopment) {
         stream = stream.pipe(sourcemaps.write('./maps'));
     }
-    stream.pipe(gulp.dest('client/dist/js'));
+    return stream.pipe(gulp.dest('client/dist/js'));
 });
 
 gulp.task('assets', function() {
    // Need to pull over the bootstrap fonts
-   gulp.src(['client/lib/bootstrap-sass/fonts/*']).pipe(gulp.dest('client/dist/fonts'));
+   return gulp.src(['client/lib/bootstrap-sass/fonts/*']).pipe(gulp.dest('client/dist/fonts'));
 });
 
 gulp.task('clean', function() {
-    del(['client/dist'], { force:true });
+    return gulp.src('client/dist').pipe(clean());
 });
 
-gulp.task('build', ['styles', 'scripts', 'assets']);
+gulp.task('build', function(callback) {
+    return runSequence('clean', ['styles', 'scripts', 'assets'], callback);
+});
 
 /* ***** TESTING ***** */
 
@@ -90,7 +93,7 @@ gulp.task('test:server', function() {
 });
 
 gulp.task('test:client', function(done) {
-    karma.start({
+    return karma.start({
         configFile: __dirname + '/tests/karma.conf.js',
         singleRun: true
     }, done);
