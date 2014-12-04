@@ -23,7 +23,7 @@ module.exports = {
 		lib: {
 			css: [
 				'client/lib/bootstrap/dist/css/bootstrap.css',
-				'client/lib/bootstrap/dist/css/bootstrap-theme.css',
+				'client/lib/bootstrap/dist/css/bootstrap-theme.css'
 			],
 			js: [
 				'client/lib/angular/angular.js',

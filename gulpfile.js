@@ -24,7 +24,7 @@ var gulp = require('gulp'),
     },
     del = require('del'),
     nowServing = false,
-    isDevelopment = false; // FIXME Make this dynamic
+    isDevelopment = true; // FIXME Make this dynamic
 
 /* ***** RUNNING ***** */
 
@@ -42,7 +42,7 @@ gulp.task('serve', function() {
 /* ***** BUILDING ***** */
 
 gulp.task('styles', function() {
-    var stream = gulp.src(['client/styles/**/*.scss']);
+    var stream = gulp.src(['client/styles/application.scss']);
     if(isDevelopment) { stream = stream.pipe(sourcemaps.init()); }
     stream = stream.pipe(sass());
     if(isDevelopment) { stream = stream.pipe(sourcemaps.write('./maps')); }
@@ -73,11 +73,16 @@ gulp.task('scripts', function() {
     stream.pipe(gulp.dest('client/dist/js'));
 });
 
+gulp.task('assets', function() {
+   // Need to pull over the bootstrap fonts
+   gulp.src(['client/lib/bootstrap-sass/fonts/*']).pipe(gulp.dest('client/dist/fonts'));
+});
+
 gulp.task('clean', function() {
     del(['client/dist'], { force:true });
 });
 
-gulp.task('build', ['styles', 'scripts']);
+gulp.task('build', ['styles', 'scripts', 'assets']);
 
 /* ***** TESTING ***** */
 
