@@ -4,6 +4,7 @@ var gulp = require('gulp'),
     runSequence = require('run-sequence').use(gulp),
     sass = require('gulp-sass'),
     sourcemaps = require('gulp-sourcemaps'),
+    ngAnnotate = require('gulp-ng-annotate'),
     concat = require('gulp-concat'),
     csso = require('gulp-csso'),
     uglify = require('gulp-uglify'),
@@ -25,7 +26,7 @@ var gulp = require('gulp'),
         mochaTests: ['tests/server/**/*.js']
     },
     nowServing = false,
-    isDevelopment = (process.env.NODE_ENV === 'development');
+    isDevelopment = (process.env.NODE_ENV !== 'development');
 
 /* ***** RUNNING ***** */
 
@@ -59,8 +60,8 @@ gulp.task('scripts', function() {
     if(isDevelopment) {
         stream = stream.pipe(sourcemaps.init());
     } else {
-        // FIXME This is failing
-        //stream = stream.pipe(uglify());
+        stream = stream.pipe(ngAnnotate());
+        stream = stream.pipe(uglify());
     }
 
     // TBD Potentially compile ES6/CoffeeScript/ATScript here
