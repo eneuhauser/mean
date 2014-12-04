@@ -24,7 +24,7 @@ var gulp = require('gulp'),
     },
     del = require('del'),
     nowServing = false,
-    isDevelopment = true; // FIXME Make this dynamic
+    isDevelopment = (process.env.NODE_ENV === 'development');
 
 /* ***** RUNNING ***** */
 
