@@ -3,7 +3,7 @@
 var gulp = require('gulp'),
     sass = require('gulp-sass'),
     sourcemaps = require('gulp-sourcemaps'),
-    concatJs = require('gulp-concat'),
+    concat = require('gulp-concat'),
     csso = require('gulp-csso'),
     uglify = require('gulp-uglify'),
     server = require( 'gulp-develop-server'),
@@ -42,12 +42,12 @@ gulp.task('serve', function() {
 /* ***** BUILDING ***** */
 
 gulp.task('styles', function() {
-    var stream = gulp.src(['client/styles/application.scss']);
+    var stream = gulp.src(['client/**/*.scss', '!client/lib/**']);
     if(isDevelopment) { stream = stream.pipe(sourcemaps.init()); }
     stream = stream.pipe(sass());
     if(isDevelopment) { stream = stream.pipe(sourcemaps.write('./maps')); }
     else { stream = stream.pipe(csso()); }
-    stream.pipe(gulp.dest('client/dist/css'));
+    stream.pipe(concat('application.css')).pipe(gulp.dest('client/dist/css'));
 
     console.log('TODO Run CSS Linter');
     console.log('TODO Compile SASS to CSS');
@@ -66,7 +66,7 @@ gulp.task('scripts', function() {
 
     // TBD Potentially compile ES6/CoffeeScript/ATScript here
 
-    stream = stream.pipe(concatJs('application.js'));
+    stream = stream.pipe(concat('application.js'));
     if(isDevelopment) {
         stream = stream.pipe(sourcemaps.write('./maps'));
     }
