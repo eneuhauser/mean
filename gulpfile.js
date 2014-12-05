@@ -26,7 +26,7 @@ var gulp = require('gulp'),
         mochaTests: ['tests/server/**/*.js']
     },
     nowServing = false,
-    isDevelopment = (process.env.NODE_ENV !== 'development');
+    isDevelopment = (process.env.NODE_ENV === 'development');
 
 /* ***** RUNNING ***** */
 
