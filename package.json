@@ -68,7 +68,6 @@
     "karma-junit-reporter": "^0.2.2",
     "karma-osx-reporter": "^0.1.0",
     "karma-phantomjs-launcher": "~0.1.2",
-    "load-grunt-tasks": "~1.0.0",
     "protractor": "^1.4.0",
     "run-sequence": "^1.0.2",
     "should": "~4.1.0",
