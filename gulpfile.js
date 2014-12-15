@@ -44,10 +44,10 @@ gulp.task('serve', function() {
 /* ***** BUILDING ***** */
 
 gulp.task('styles', function() {
-    var stream = gulp.src(['client/**/*.scss', '!client/lib/**', '!client/dist/**']);
+    var stream = gulp.src('client/application.scss');
     console.log('TODO Run CSS Linter');
     if(isDevelopment) { stream = stream.pipe(sourcemaps.init()); }
-    stream = stream.pipe(sass()).pipe(concat('application.css'));
+    stream = stream.pipe(sass());//.pipe(concat('application.css'));
     if(isDevelopment) { stream = stream.pipe(sourcemaps.write('./maps')); }
     else { stream = stream.pipe(csso()); }
     return stream.pipe(gulp.dest('client/dist/css'));
