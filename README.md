@@ -11,11 +11,9 @@ Currently, the Gruntfile is being updated during the restructuring; however, the
 ## Roadmap
 This has not been fully ported to Gulp.js. Here are features to be implemented:
 
-1. SASS support
-2. CSS linter
-3. JS linter
-4. JS concatenation
-5. YO Generators
+1. CSS linter
+2. JS linter
+3. YO Generators
 
 ## Before You Begin 
 Before you begin we recommend you read about the basic building blocks that assemble a MEAN.JS application: 
